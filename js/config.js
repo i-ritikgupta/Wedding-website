@@ -39,9 +39,15 @@ const WEDDING_CONFIG = {
     }
   ],
 
-  // Flat list of photos for the masonry album.
-  albumImageSeeds: [
-    "album-1", "album-2", "album-3", "album-4",
-    "album-5", "album-6", "album-7", "album-8"
+  // Photos shown in the rotating card-deck slideshow, in cycle order.
+  collectionImages: [
+    "Photos/Collection/1.png",
+    "Photos/Collection/2.JPG",
+    "Photos/Collection/3.JPG",
+    "Photos/Collection/4.JPG",
+    "Photos/Collection/5.JPG",
+    "Photos/Collection/6.JPG",
+    "Photos/Collection/7.JPG",
+    "Photos/Collection/8.JPG"
   ]
 };

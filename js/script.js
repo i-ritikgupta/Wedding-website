@@ -40,10 +40,75 @@ function renderSchedule(events) {
   `).join('');
 }
 
-// ===== Render album =====
-function renderAlbum(seeds) {
-  const el = document.getElementById('album-grid');
-  el.innerHTML = seeds.map(seed => `<img class="reveal-item" loading="lazy" src="https://picsum.photos/seed/${seed}/400/${300 + (seed.length % 3) * 60}" alt="Wedding moment">`).join('');
+// ===== Card deck (Collection slideshow, fanned) =====
+function applyFanPosition(card, pos, spread) {
+  if (pos === 0) {
+    card.style.setProperty('--tx', '0px');
+    card.style.setProperty('--ty', '0px');
+    card.style.setProperty('--rot', '0deg');
+    card.style.setProperty('--scale', '1');
+    card.style.setProperty('--op', '1');
+    card.style.setProperty('--z', '30');
+    return;
+  }
+  const side = pos % 2 === 1 ? 1 : -1; // odd -> right, even -> left
+  const layer = Math.ceil(pos / 2);
+  card.style.setProperty('--tx', `${side * layer * spread}px`);
+  card.style.setProperty('--ty', `${layer * spread * 0.3}px`);
+  card.style.setProperty('--rot', `${side * layer * 11}deg`);
+  card.style.setProperty('--scale', `${1 - layer * 0.06}`);
+  card.style.setProperty('--op', `${Math.max(1 - layer * 0.1, 0.6)}`);
+  card.style.setProperty('--z', `${30 - pos}`);
+}
+
+function initCardDeck(images) {
+  const deck = document.getElementById('card-deck');
+  if (!deck || images.length === 0) return;
+
+  deck.innerHTML = images
+    .map((src, i) => `<div class="deck-card" data-idx="${i}"><img src="${src}" alt="Wedding moment ${i + 1}"></div>`)
+    .join('');
+
+  const cards = Array.from(deck.children);
+  let order = cards.map((_, i) => i); // order[0] = index of the front card
+  const spread = deck.clientWidth * 0.16;
+
+  order.forEach((cardIdx, pos) => applyFanPosition(cards[cardIdx], pos, spread));
+
+  if (images.length < 2) return;
+
+  let timer;
+
+  function cycle() {
+    const frontIdx = order[0];
+    const frontCard = cards[frontIdx];
+    const rest = order.slice(1);
+
+    frontCard.classList.add('leaving');
+    rest.forEach((cardIdx, pos) => applyFanPosition(cards[cardIdx], pos, spread));
+
+    setTimeout(() => {
+      order = [...rest, frontIdx];
+      frontCard.classList.add('no-transition');
+      frontCard.classList.remove('leaving');
+      applyFanPosition(frontCard, order.length - 1, spread);
+      // eslint-disable-next-line no-unused-expressions
+      frontCard.offsetHeight; // force reflow so the next transition re-enables cleanly
+      frontCard.classList.remove('no-transition');
+    }, 700);
+  }
+
+  function restart() {
+    clearInterval(timer);
+    timer = setInterval(cycle, 3500);
+  }
+
+  deck.addEventListener('click', () => {
+    cycle();
+    restart();
+  });
+
+  restart();
 }
 
 // ===== Save-the-date scratch cards (day / month / year boxes) =====
@@ -267,37 +332,16 @@ function initBackToTop() {
   });
 }
 
-// ===== Album lightbox =====
-function initLightbox() {
-  const grid = document.getElementById('album-grid');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const closeBtn = document.getElementById('lightbox-close');
-
-  grid.addEventListener('click', (e) => {
-    if (e.target.tagName !== 'IMG') return;
-    lightboxImg.src = e.target.src.replace(/\/400\/\d+$/, '/1000/750');
-    lightbox.classList.add('open');
-  });
-
-  function close() { lightbox.classList.remove('open'); }
-
-  closeBtn.addEventListener('click', close);
-  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-}
-
 // ===== Init =====
 document.addEventListener('DOMContentLoaded', () => {
   startCountdown(WEDDING_CONFIG.weddingDateTime);
   initScratchCard();
   renderSchedule(WEDDING_CONFIG.events);
-  renderAlbum(WEDDING_CONFIG.albumImageSeeds);
+  initCardDeck(WEDDING_CONFIG.collectionImages);
   initInviteCover();
   initMusicToggle();
   initPetals();
   initScrollReveal();
   initNavActive();
   initBackToTop();
-  initLightbox();
 });
