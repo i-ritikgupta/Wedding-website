@@ -692,6 +692,7 @@ body.locked { overflow: hidden; height: 100vh; }
   width: 220px;
   height: 300px;
   margin: 0 auto 3.2rem;
+  touch-action: pan-y;
 }
 
 .deck-card {
@@ -716,6 +717,9 @@ body.locked { overflow: hidden; height: 100vh; }
   height: 100%;
   object-fit: cover;
   display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
 }
 
 .deck-card.leaving {

@@ -79,6 +79,7 @@ function initCardDeck(images) {
 
   let timer;
 
+  // Front card slides down/out; everyone else shifts one slot forward.
   function cycle() {
     const frontIdx = order[0];
     const frontCard = cards[frontIdx];
@@ -98,13 +99,59 @@ function initCardDeck(images) {
     }, 700);
   }
 
+  // Mirror of cycle(): the back-most card flies up into the front slot;
+  // everyone else shifts one slot back.
+  function cyclePrev() {
+    const lastIdx = order[order.length - 1];
+    const lastCard = cards[lastIdx];
+    const rest = order.slice(0, -1);
+
+    rest.forEach((cardIdx, pos) => applyFanPosition(cards[cardIdx], pos + 1, spread));
+
+    lastCard.classList.add('no-transition');
+    lastCard.style.setProperty('--tx', '0px');
+    lastCard.style.setProperty('--ty', '130px');
+    lastCard.style.setProperty('--rot', '10deg');
+    lastCard.style.setProperty('--scale', '0.85');
+    lastCard.style.setProperty('--op', '0');
+    lastCard.style.setProperty('--z', '31');
+    // eslint-disable-next-line no-unused-expressions
+    lastCard.offsetHeight; // force reflow before re-enabling the transition
+    lastCard.classList.remove('no-transition');
+
+    requestAnimationFrame(() => applyFanPosition(lastCard, 0, spread));
+
+    order = [lastIdx, ...rest];
+  }
+
   function restart() {
     clearInterval(timer);
     timer = setInterval(cycle, 3500);
   }
 
-  deck.addEventListener('click', () => {
-    cycle();
+  // Tap advances forward; swipe left/right advances or goes back.
+  let startX = 0;
+  let startY = 0;
+  let pointerDown = false;
+
+  deck.addEventListener('pointerdown', (e) => {
+    pointerDown = true;
+    startX = e.clientX;
+    startY = e.clientY;
+  });
+
+  deck.addEventListener('pointerup', (e) => {
+    if (!pointerDown) return;
+    pointerDown = false;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) cycle(); else cyclePrev();
+    } else {
+      cycle();
+    }
     restart();
   });
 
