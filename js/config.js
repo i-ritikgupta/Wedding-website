@@ -16,26 +16,34 @@ const WEDDING_CONFIG = {
     {
       day: "22",
       month: "Jan",
-      title: "Mehndi & Sangeet",
-      time: "6:00 PM onwards",
-      venue: "Rosewood Banquet Hall, Ghazipur",
-      mapQuery: "Rosewood Banquet Hall Ghazipur"
-    },
-    {
-      day: "23",
-      month: "Jan",
-      title: "Reception",
-      time: "6:30 PM onwards",
-      venue: "Grand Palace Gardens, Ghazipur",
-      mapQuery: "Grand Palace Gardens Ghazipur"
+      title: "Handi & Mehndi",
+      time: "10:00 AM onwards",
+      venue: "Home, Jhansi",
+      mapQuery: ""
     },
     {
       day: "24",
       month: "Jan",
-      title: "Wedding Muhurtham",
+      title: "Sangeet",
       time: "10:00 AM onwards",
-      venue: "Sri Kalyana Mahal, Ghazipur",
-      mapQuery: "Sri Kalyana Mahal Ghazipur"
+      venue: "Adarsh Palace, Ghazipur",
+      mapQuery: "Adarsh Palace, Ghazipur",
+    },
+    {
+      day: "24",
+      month: "Jan",
+      title: "Wedding",
+      time: "06:00 PM onwards",
+      venue: "Adarsh Palace, Ghazipur",
+      mapQuery: "Adarsh Palace, Ghazipur",
+    },
+    {
+      day: "26",
+      month: "Jan",
+      title: "Reception",
+      time: "07:00 PM onwards",
+      venue: "Mansi Garden, Jhansi",
+      mapQuery: "Mansi Garden, Jhansi",
     }
   ],
 
