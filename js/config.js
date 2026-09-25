@@ -24,7 +24,7 @@ const WEDDING_CONFIG = {
     {
       day: "24",
       month: "Jan",
-      title: "Sangeet",
+      title: "Carnival",
       time: "10:00 AM onwards",
       venue: "Adarsh Palace, Ghazipur",
       mapQuery: "Adarsh Palace, Ghazipur",
