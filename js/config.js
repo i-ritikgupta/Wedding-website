@@ -16,7 +16,7 @@ const WEDDING_CONFIG = {
     {
       day: "22",
       month: "Jan",
-      title: "Handi & Mehndi",
+      title: "Haldi & Mehndi",
       time: "10:00 AM onwards",
       venue: "Home, Jhansi",
       mapQuery: ""
