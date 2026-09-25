@@ -18,13 +18,13 @@ const WEDDING_CONFIG = {
       month: "Jan",
       title: "Handi & Mehndi",
       time: "10:00 AM onwards",
-      venue: "Home, Jhansi",
+      venue: "Home, Ghazipur",
       mapQuery: ""
     },
     {
       day: "24",
       month: "Jan",
-      title: "Sangeet",
+      title: "Carnival",
       time: "10:00 AM onwards",
       venue: "Adarsh Palace, Ghazipur",
       mapQuery: "Adarsh Palace, Ghazipur",

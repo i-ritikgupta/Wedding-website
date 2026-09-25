@@ -320,7 +320,7 @@ body.locked { overflow: hidden; height: 100vh; }
 /* ===== Music toggle ===== */
 #music-toggle {
   position: fixed;
-  right: 1.4rem;
+  left: calc(1.4rem + 48px + 0.8rem); /* just right of #back-to-top */
   bottom: 1.4rem;
   z-index: 60;
   width: 52px;
@@ -839,7 +839,7 @@ body.locked { overflow: hidden; height: 100vh; }
 
   .card-deck { width: 170px; height: 230px; margin-bottom: 2.4rem; }
 
-  #music-toggle { width: 46px; height: 46px; right: 1rem; bottom: 1rem; }
+  #music-toggle { width: 46px; height: 46px; left: calc(1rem + 42px + 0.6rem); bottom: 1rem; }
   #back-to-top { width: 42px; height: 42px; left: 1rem; bottom: 1rem; }
 
   .invite-monogram { width: 42px; height: 42px; margin-bottom: 1rem; }
